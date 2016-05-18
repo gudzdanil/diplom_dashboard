@@ -1,0 +1,14 @@
+<form ng-submit="vmLogin.login(logForm)" name="logForm" class="form col-md-6 col-md-push-3" style="border: 1px solid rgb(17, 63, 110); border-radius: 10px; margin-top: 50px; padding-bottom: 20px;">
+    <h2 class="text-center">Авторизация</h2>
+    <div class="form-group">
+        <label for="email">Логин</label>
+        <input type="text" class="form-control" required ng-model="vmLogin.userdata.username" id="email"/>
+    </div>
+    <div class="form-group">
+        <label for="password">Пароль</label>
+        <input type="password" class="form-control" required ng-model="vmLogin.userdata.password" id="password"/>
+    </div>
+    <div class="text-center">
+        <input type="submit" class="btn btn-default" value="Войти">
+    </div>
+</form>

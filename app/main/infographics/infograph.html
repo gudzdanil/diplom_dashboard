@@ -1,0 +1,20 @@
+<ul class="list-unstyled clearfix">
+    <li ng-repeat="graph in vmGraph.graphs track by $index">
+        <div class="col-md-8">
+            <dl class="dl-horizontal">
+                <dt>Запрос</dt>
+                <dd ng-bind="graph.query"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>Тип</dt>
+                <dd ng-bind="vmGraph.types[graph.diagram_type]"></dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <button ng-click="vmGraph.edit($index)" class="btn btn-default">Редактировать</button>
+        </div>
+    </li>
+</ul>
+<div class="text-center">
+    <button ng-click="vmGraph.add()" class="btn btn-default">Добавить</button>
+</div>

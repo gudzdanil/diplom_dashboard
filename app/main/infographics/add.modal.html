@@ -1,0 +1,18 @@
+<div style="padding: 20px;">
+    <form ng-submit="vmAdd.save(addForm)" name="addForm">
+        <div class="row">
+            <div class="form-group col-sm-8">
+                <label>Запрос</label>
+                <input type="text" ng-model="vmAdd.graph.query" class="form-control">
+            </div>
+            <div class="col-sm-4">
+                <label>Тип</label>
+                <select class="form-control" ng-model="vmAdd.graph.diagram_type"
+                        ng-options="key as value for (key, value) in vmAdd.types"></select>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-default">Сохранить</button>
+        </div>
+    </form>
+</div>

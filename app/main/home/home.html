@@ -1,0 +1,6 @@
+<div class=" col-md-4 col-sm-6 col-xs-12" ng-repeat="graph in vmHome.graphs track by $index">
+    <canvas id="line" class="chart chart-line" chart-data="graph.data"
+            chart-labels="graph.labels" chart-legend="true" chart-series="graph.series"
+            chart-click="vmHome.onClick">
+    </canvas>
+</div>
