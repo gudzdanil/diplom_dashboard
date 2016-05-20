@@ -1,0 +1,24 @@
+<ul class="list-unstyled clearfix">
+    <li class="row" ng-repeat="user in vmUsers.users track by $index" style="border-bottom: 1px solid rgba(0,0,0,0.1); padding-top: 10px;">
+        <div class="col-md-8">
+            <dl class="dl-horizontal">
+                <dt>Имя пользователя</dt>
+                <dd ng-bind="user.username"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>E-mail</dt>
+                <dd ng-bind="user.email"></dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>Доступ к дашбордам</dt>
+                <dd ng-bind="vmUsers.getDashboardsList(user)"></dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-default">Редактировать</button>
+        </div>
+    </li>
+</ul>
+<div class="row text-center">
+    <button class="btn btn-default">Добавить</button>
+</div>

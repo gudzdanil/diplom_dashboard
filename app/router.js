@@ -12,16 +12,6 @@ function routing($stateProvider, $urlRouterProvider) {
                 label: 'Авторизация'
             }
         })
-        .state('register', {
-            parent: 'global',
-            url: '/register',
-            controller: 'RegisterCtrl',
-            controllerAs: 'vmRegister',
-            template: require('./auth/register/register.html'),
-            ncyBreadcrumb: {
-                label: 'Регистрация'
-            }
-        })
         .state('global', {
             abstract: true,
             template: require('./main/global.html'),
@@ -48,7 +38,7 @@ function routing($stateProvider, $urlRouterProvider) {
             controllerAs: 'vmConnection',
             template: require('./main/connection/connection.html'),
             data: {
-                permission: ['ADMIN', 'USER']
+                permission: ['ADMIN']
             },
             ncyBreadcrumb: {
                 label: 'Создать соединение'
@@ -61,10 +51,23 @@ function routing($stateProvider, $urlRouterProvider) {
             controllerAs: 'vmGraph',
             template: require('./main/infographics/infograph.html'),
             data: {
-                permission: ['ADMIN', 'USER']
+                permission: ['ADMIN']
             },
             ncyBreadcrumb: {
                 label: 'Управление инфорграфикой'
+            }
+        })
+        .state('users', {
+            parent: 'global',
+            url: '/users',
+            controller: 'UsersCtrl',
+            controllerAs: 'vmUsers',
+            template: require('./main/users/users.html'),
+            data: {
+                permission: ['ADMIN']
+            },
+            ncyBreadcrumb: {
+                label: 'Управление пользователями'
             }
         });
 }

@@ -94,6 +94,10 @@
 
 	var _addModal2 = _interopRequireDefault(_addModal);
 
+	var _users3 = __webpack_require__(20);
+
+	var _users4 = _interopRequireDefault(_users3);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	angular.module('dp', ['ui.router', 'ui.bootstrap', 'chart.js']).constant('AUTH', {
@@ -112,7 +116,7 @@
 	    $rootScope.$on('logout', function () {
 	        $state.go('login');
 	    });
-	}]).constant('API_URL', 'http://almost-bachelor.herokuapp.com/').service('UsersApiService', _usersApi2.default).service('UserService', _users2.default).service('GlobalApiService', _globalApi2.default).controller('LoginCtrl', _login2.default).controller('RegisterCtrl', _register2.default).controller('GlobalCtrl', _global2.default).controller('ConnectionCtrl', _connection2.default).controller('HomeCtrl', _home2.default).controller('GraphAddCtrl', _addModal2.default).controller('GraphicsCtrl', _infograph2.default);
+	}]).constant('API_URL', 'http://almost-bachelor.herokuapp.com/').service('UsersApiService', _usersApi2.default).service('UserService', _users2.default).service('GlobalApiService', _globalApi2.default).controller('LoginCtrl', _login2.default).controller('RegisterCtrl', _register2.default).controller('GlobalCtrl', _global2.default).controller('ConnectionCtrl', _connection2.default).controller('HomeCtrl', _home2.default).controller('GraphAddCtrl', _addModal2.default).controller('UsersCtrl', _users4.default).controller('GraphicsCtrl', _infograph2.default);
 
 /***/ },
 /* 1 */
@@ -134,18 +138,9 @@
 	        ncyBreadcrumb: {
 	            label: 'Авторизация'
 	        }
-	    }).state('register', {
-	        parent: 'global',
-	        url: '/register',
-	        controller: 'RegisterCtrl',
-	        controllerAs: 'vmRegister',
-	        template: __webpack_require__(3),
-	        ncyBreadcrumb: {
-	            label: 'Регистрация'
-	        }
 	    }).state('global', {
 	        abstract: true,
-	        template: __webpack_require__(4),
+	        template: __webpack_require__(3),
 	        controller: 'GlobalCtrl',
 	        controllerAs: 'vmGlobal'
 	    }).state('home', {
@@ -153,7 +148,7 @@
 	        url: '/',
 	        controller: 'HomeCtrl',
 	        controllerAs: 'vmHome',
-	        template: __webpack_require__(5),
+	        template: __webpack_require__(4),
 	        data: {
 	            permission: ['ADMIN', 'USER']
 	        },
@@ -165,9 +160,9 @@
 	        url: '/connection',
 	        controller: 'ConnectionCtrl',
 	        controllerAs: 'vmConnection',
-	        template: __webpack_require__(6),
+	        template: __webpack_require__(5),
 	        data: {
-	            permission: ['ADMIN', 'USER']
+	            permission: ['ADMIN']
 	        },
 	        ncyBreadcrumb: {
 	            label: 'Создать соединение'
@@ -177,12 +172,24 @@
 	        url: '/graphics',
 	        controller: 'GraphicsCtrl',
 	        controllerAs: 'vmGraph',
-	        template: __webpack_require__(7),
+	        template: __webpack_require__(6),
 	        data: {
-	            permission: ['ADMIN', 'USER']
+	            permission: ['ADMIN']
 	        },
 	        ncyBreadcrumb: {
 	            label: 'Управление инфорграфикой'
+	        }
+	    }).state('users', {
+	        parent: 'global',
+	        url: '/users',
+	        controller: 'UsersCtrl',
+	        controllerAs: 'vmUsers',
+	        template: __webpack_require__(7),
+	        data: {
+	            permission: ['ADMIN']
+	        },
+	        ncyBreadcrumb: {
+	            label: 'Управление пользователями'
 	        }
 	    });
 	}
@@ -201,31 +208,31 @@
 /* 3 */
 /***/ function(module, exports) {
 
-	module.exports = "<form ng-submit=\"vm.register(regForm)\" name=\"regForm\" class=\"form\">\n    <h2 class=\"text-center\">Авторизироваться</h2>\n    <div class=\"form-group\">\n        <label for=\"email\">Email</label>\n        <input type=\"email\" class=\"form-control\" required ng-model=\"vm.userdata.email\" id=\"email\"/>\n    </div>\n    <div class=\"form-group\">\n        <label for=\"password\">Пароль</label>\n        <input type=\"email\" class=\"form-control\" required ng-model=\"vm.userdata.password\" id=\"password\"/>\n    </div>\n    <div class=\"text-center\">\n        <input type=\"submit\" value=\"Зарегистрироваться\">\n    </div>\n</form>"
+	module.exports = "<header>\n    <nav class=\"navbar navbar-default\">\n        <div class=\"container-fluid\">\n            <!-- Brand and toggle get grouped for better mobile display -->\n            <div class=\"navbar-header\">\n                <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\"\n                        data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n                    <span class=\"sr-only\">Toggle navigation</span>\n                    <span class=\"icon-bar\"></span>\n                    <span class=\"icon-bar\"></span>\n                    <span class=\"icon-bar\"></span>\n                </button>\n                <a class=\"navbar-brand\" href=\"#\">Dashboard</a>\n            </div>\n\n            <!-- Collect the nav links, forms, and other content for toggling -->\n            <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n                <ul class=\"nav navbar-nav\">\n                    <li ui-sref-active=\"active\"><a href=\"\" ui-sref=\"home\">Главная</a></li>\n                    <li ui-sref-active=\"active\"><a href=\"\" ui-sref=\"connection\">Соединение</a></li>\n                    <li ui-sref-active=\"active\"><a href=\"\" ui-sref=\"graphics\">Настройка дашбордов</a></li>\n                    <li ui-sref-active=\"active\"><a href=\"\" ui-sref=\"users\">Пользователи</a></li>\n                </ul>\n                <ul class=\"nav navbar-nav navbar-right\">\n                    <li><a href=\"\" ng-bind=\"vmGlobal.user.username\"></a></li>\n                    <li><a href=\"\" ng-click=\"vmGlobal.logout()\">Выйти</a></li>\n                </ul>\n            </div><!-- /.navbar-collapse -->\n        </div><!-- /.container-fluid -->\n    </nav>\n</header>\n<main>\n    <div class=\"container\" ui-view></div>\n</main>\n<!--<footer>-->\n    <!--<nav class=\"navbar navbar-default\">-->\n        <!--<div class=\"container\">-->\n            <!--...-->\n        <!--</div>-->\n    <!--</nav>-->\n<!--</footer>-->"
 
 /***/ },
 /* 4 */
 /***/ function(module, exports) {
 
-	module.exports = "<header>\n    <nav class=\"navbar navbar-default\">\n        <div class=\"container-fluid\">\n            <!-- Brand and toggle get grouped for better mobile display -->\n            <div class=\"navbar-header\">\n                <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\"\n                        data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n                    <span class=\"sr-only\">Toggle navigation</span>\n                    <span class=\"icon-bar\"></span>\n                    <span class=\"icon-bar\"></span>\n                    <span class=\"icon-bar\"></span>\n                </button>\n                <a class=\"navbar-brand\" href=\"#\">Dashboard</a>\n            </div>\n\n            <!-- Collect the nav links, forms, and other content for toggling -->\n            <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n                <ul class=\"nav navbar-nav\">\n                    <li ui-sref-active=\"active\"><a href=\"\" ui-sref=\"home\">Главная</a></li>\n                    <li ui-sref-active=\"active\"><a href=\"\" ui-sref=\"connection\">Соединение</a></li>\n                    <li ui-sref-active=\"active\"><a href=\"\" ui-sref=\"graphics\">Настройка</a></li>\n                </ul>\n                <ul class=\"nav navbar-nav navbar-right\">\n                    <li><a href=\"\" ng-bind=\"vmGlobal.user.username\"></a></li>\n                    <li><a href=\"\" ng-click=\"vmGlobal.logout()\">Выйти</a></li>\n                </ul>\n            </div><!-- /.navbar-collapse -->\n        </div><!-- /.container-fluid -->\n    </nav>\n</header>\n<main>\n    <div class=\"container\" ui-view></div>\n</main>\n<!--<footer>-->\n    <!--<nav class=\"navbar navbar-default\">-->\n        <!--<div class=\"container\">-->\n            <!--...-->\n        <!--</div>-->\n    <!--</nav>-->\n<!--</footer>-->"
+	module.exports = "<div class=\" col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"graph in vmHome.graphs track by $index\">\n    <canvas id=\"line\" class=\"chart chart-line\" chart-data=\"graph.data\"\n            chart-labels=\"graph.labels\" chart-legend=\"true\" chart-series=\"graph.series\"\n            chart-click=\"vmHome.onClick\">\n    </canvas>\n</div>"
 
 /***/ },
 /* 5 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\" col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"graph in vmHome.graphs track by $index\">\n    <canvas id=\"line\" class=\"chart chart-line\" chart-data=\"graph.data\"\n            chart-labels=\"graph.labels\" chart-legend=\"true\" chart-series=\"graph.series\"\n            chart-click=\"vmHome.onClick\">\n    </canvas>\n</div>"
+	module.exports = "<form ng-submit=\"vmConnection.connect(connectionForm)\" name=\"connectionForm\">\n    <div class=\"form-group\">\n        <label for=\"db_host\">Хост базы данных</label>\n        <input type=\"text\" ng-model=\"vmConnection.connectiondata.host\" class=\"form-control\" id=\"db_host\"  placeholder=\"http://my.db/123\">\n    </div>\n    <div class=\"form-group\">\n        <label for=\"db_port\">Порт</label>\n        <input type=\"number\"  ng-model=\"vmConnection.connectiondata.port\" class=\"form-control\" id=\"db_port\" placeholder=\"8080\">\n    </div>\n    <div class=\"form-group\">\n        <label for=\"db_user\">Имя пользователя</label>\n        <input type=\"text\" class=\"form-control\" ng-model=\"vmConnection.connectiondata.username\" id=\"db_user\" placeholder=\"admin\">\n    </div>\n    <div class=\"form-group\">\n        <label for=\"db_pass\">Пароль</label>\n        <input type=\"password\" class=\"form-control\" ng-model=\"vmConnection.connectiondata.password\" id=\"db_pass\" placeholder=\"пароль\">\n    </div>\n    <div class=\"form-group\">\n        <label for=\"db_name\">Имя базы данных</label>\n        <input type=\"text\" class=\"form-control\" ng-model=\"vmConnection.connectiondata.db_name\" id=\"db_name\" placeholder=\"main\">\n    </div>\n    <div class=\"text-center\">\n        <button class=\"btn btn-default\" type=\"submit\">Создать соединение</button>\n    </div>\n</form>"
 
 /***/ },
 /* 6 */
 /***/ function(module, exports) {
 
-	module.exports = "<form ng-submit=\"vmConnection.connect(connectionForm)\" name=\"connectionForm\">\n    <div class=\"form-group\">\n        <label for=\"db_host\">Хост базы данных</label>\n        <input type=\"text\" ng-model=\"vmConnection.connectiondata.host\" class=\"form-control\" id=\"db_host\"  placeholder=\"http://my.db/123\">\n    </div>\n    <div class=\"form-group\">\n        <label for=\"db_port\">Порт</label>\n        <input type=\"number\"  ng-model=\"vmConnection.connectiondata.port\" class=\"form-control\" id=\"db_port\" placeholder=\"8080\">\n    </div>\n    <div class=\"form-group\">\n        <label for=\"db_user\">Имя пользователя</label>\n        <input type=\"text\" class=\"form-control\" ng-model=\"vmConnection.connectiondata.username\" id=\"db_user\" placeholder=\"admin\">\n    </div>\n    <div class=\"form-group\">\n        <label for=\"db_pass\">Пароль</label>\n        <input type=\"password\" class=\"form-control\" ng-model=\"vmConnection.connectiondata.password\" id=\"db_pass\" placeholder=\"пароль\">\n    </div>\n    <div class=\"form-group\">\n        <label for=\"db_name\">Имя базы данных</label>\n        <input type=\"text\" class=\"form-control\" ng-model=\"vmConnection.connectiondata.db_name\" id=\"db_name\" placeholder=\"main\">\n    </div>\n    <div class=\"text-center\">\n        <button class=\"btn btn-default\" type=\"submit\">Создать соединение</button>\n    </div>\n</form>"
+	module.exports = "<uib-tabset active=\"vmGraph.activeDashBoard\">\n    <uib-tab index=\"($index + 1)\" heading=\"{{dashboard.title}}\" ng-repeat=\"dashboard in vmGraph.dashboards track by $index\">\n        <ul class=\"list-unstyled clearfix\" style=\"margin-top: 30px;\">\n            <li ng-repeat=\"graph in dashboard.graphs track by $index\">\n                <div class=\"col-md-8\">\n                    <dl class=\"dl-horizontal\">\n                        <dt>Запрос</dt>\n                        <dd ng-bind=\"graph.query\"></dd>\n                    </dl>\n                    <dl class=\"dl-horizontal\">\n                        <dt>Тип</dt>\n                        <dd ng-bind=\"vmGraph.types[graph.diagram_type]\"></dd>\n                    </dl>\n                </div>\n                <div class=\"col-md-4\">\n                    <button ng-click=\"vmGraph.edit($parent.$index, $index)\" class=\"btn btn-default\">Редактировать</button>\n                </div>\n            </li>\n        </ul>\n        <div class=\"text-center\">\n            <button ng-click=\"vmGraph.add($parent.$index)\" class=\"btn btn-default\">Добавить</button>\n        </div>\n    </uib-tab>\n    <uib-tab ng-click=\"vmGraph.addDashboard()\" heading=\"+\" index=\"99999\" style=\"cursor: default\"></uib-tab>\n</uib-tabset>\n\n"
 
 /***/ },
 /* 7 */
 /***/ function(module, exports) {
 
-	module.exports = "<ul class=\"list-unstyled clearfix\">\n    <li ng-repeat=\"graph in vmGraph.graphs track by $index\">\n        <div class=\"col-md-8\">\n            <dl class=\"dl-horizontal\">\n                <dt>Запрос</dt>\n                <dd ng-bind=\"graph.query\"></dd>\n            </dl>\n            <dl class=\"dl-horizontal\">\n                <dt>Тип</dt>\n                <dd ng-bind=\"vmGraph.types[graph.diagram_type]\"></dd>\n            </dl>\n        </div>\n        <div class=\"col-md-4\">\n            <button ng-click=\"vmGraph.edit($index)\" class=\"btn btn-default\">Редактировать</button>\n        </div>\n    </li>\n</ul>\n<div class=\"text-center\">\n    <button ng-click=\"vmGraph.add()\" class=\"btn btn-default\">Добавить</button>\n</div>\n"
+	module.exports = "<ul class=\"list-unstyled clearfix\">\n    <li class=\"row\" ng-repeat=\"user in vmUsers.users track by $index\" style=\"border-bottom: 1px solid rgba(0,0,0,0.1); padding-top: 10px;\">\n        <div class=\"col-md-8\">\n            <dl class=\"dl-horizontal\">\n                <dt>Имя пользователя</dt>\n                <dd ng-bind=\"user.username\"></dd>\n            </dl>\n            <dl class=\"dl-horizontal\">\n                <dt>E-mail</dt>\n                <dd ng-bind=\"user.email\"></dd>\n            </dl>\n            <dl class=\"dl-horizontal\">\n                <dt>Доступ к дашбордам</dt>\n                <dd ng-bind=\"vmUsers.getDashboardsList(user)\"></dd>\n            </dl>\n        </div>\n        <div class=\"col-md-4\">\n            <button class=\"btn btn-default\">Редактировать</button>\n        </div>\n    </li>\n</ul>\n<div class=\"row text-center\">\n    <button class=\"btn btn-default\">Добавить</button>\n</div>"
 
 /***/ },
 /* 8 */
@@ -720,19 +727,17 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var InfoGraphCtrl = function () {
-	    function InfoGraphCtrl(GlobalApiService, $uibModal) {
+	    function InfoGraphCtrl(GlobalApiService, $uibModal, $timeout) {
 	        var _this = this;
 
 	        _classCallCheck(this, InfoGraphCtrl);
 
 	        this._api = GlobalApiService;
 	        this._modal = $uibModal;
+	        this.activeDashBoard = 1;
+	        this._timeout = $timeout;
 
-	        this.graphs = [];
-
-	        this._api.getGraphs().then(function (data) {
-	            _this.graphs = data.data.results;
-	        });
+	        this.getDashboards();
 
 	        this._api.getGraphTypes().then(function (data) {
 	            _this.types = data.data;
@@ -740,9 +745,48 @@
 	    }
 
 	    _createClass(InfoGraphCtrl, [{
-	        key: 'add',
-	        value: function add() {
+	        key: 'getDashboards',
+	        value: function getDashboards() {
 	            var _this2 = this;
+
+	            this.dashboards = [];
+	            this.createDashboard('Главный', true);
+
+	            this._api.getGraphs().then(function (data) {
+	                _this2.dashboards[0].graphs = data.data.results;
+	            });
+	            this.activeDashBoard = 1;
+	        }
+	    }, {
+	        key: 'addDashboard',
+	        value: function addDashboard() {
+	            var _this3 = this;
+
+	            this.activeDashBoard = this.dashboards.length;
+	            var name = prompt("Введите имя нового дашборда: ");
+	            this.createDashboard(name);
+
+	            this._timeout(function () {
+	                _this3.activeDashBoard = _this3.dashboards.length;
+	            });
+	        }
+	    }, {
+	        key: 'createDashboard',
+	        value: function createDashboard(name, active) {
+	            if (name) {
+	                this.dashboards.push({
+	                    title: name,
+	                    id: this.dashboards.length + 1,
+	                    graphs: [],
+	                    active: !!active
+	                });
+	            }
+	            return !!name;
+	        }
+	    }, {
+	        key: 'add',
+	        value: function add(dashboardIndex) {
+	            var _this4 = this;
 
 	            this._modal.open({
 	                animation: true,
@@ -751,24 +795,24 @@
 	                controllerAs: 'vmAdd',
 	                resolve: {
 	                    types: function types() {
-	                        return _this2.types;
+	                        return _this4.types;
 	                    },
 	                    graph: function graph() {
 	                        return {};
 	                    },
 	                    saveMethod: function saveMethod() {
-	                        return angular.bind(_this2._api, _this2._api.addGraph);
+	                        return angular.bind(_this4._api, _this4._api.addGraph);
 	                    }
 	                },
 	                size: 'md'
 	            }).result.then(function (data) {
-	                _this2.graphs.push(data);
+	                _this4.dashboards[dashboardIndex].graphs.push(data);
 	            });
 	        }
 	    }, {
 	        key: 'edit',
-	        value: function edit(index) {
-	            var _this3 = this;
+	        value: function edit(dashBoardIndex, index) {
+	            var _this5 = this;
 
 	            this._modal.open({
 	                animation: true,
@@ -777,18 +821,18 @@
 	                controllerAs: 'vmAdd',
 	                resolve: {
 	                    types: function types() {
-	                        return _this3.types;
+	                        return _this5.types;
 	                    },
 	                    graph: function graph() {
-	                        return _this3.graphs[index];
+	                        return _this5.dashboards[dashBoardIndex].graphs[index];
 	                    },
 	                    saveMethod: function saveMethod() {
-	                        return angular.bind(_this3._api, _this3._api.editGraph);
+	                        return angular.bind(_this5._api, _this5._api.editGraph);
 	                    }
 	                },
 	                size: 'md'
 	            }).result.then(function (data) {
-	                _this3.graphs.splice(index, 1, data);
+	                _this5.dashboards[dashBoardIndex].graphs.splice(index, 1, data);
 	            });
 	        }
 	    }]);
@@ -796,7 +840,7 @@
 	    return InfoGraphCtrl;
 	}();
 
-	InfoGraphCtrl.$inject = ['GlobalApiService', '$uibModal'];
+	InfoGraphCtrl.$inject = ['GlobalApiService', '$uibModal', '$timeout'];
 
 	exports.default = InfoGraphCtrl;
 
@@ -850,6 +894,81 @@
 	InfoGraphAddCtrl.$inject = ['$uibModalInstance', 'graph', 'types', 'saveMethod'];
 
 	exports.default = InfoGraphAddCtrl;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var UsersController = function () {
+	    function UsersController() {
+	        _classCallCheck(this, UsersController);
+
+	        this.users = [];
+
+	        this.getUsers();
+	        this.getDashboards();
+	    }
+
+	    _createClass(UsersController, [{
+	        key: 'getUsers',
+	        value: function getUsers() {
+	            this.users = [{
+	                username: 'user1',
+	                email: 'user1@gmail.com',
+	                permissions: [1]
+	            }, {
+	                username: 'user2',
+	                email: 'user2@gmail.com',
+	                permissions: [1, 2]
+	            }];
+	        }
+	    }, {
+	        key: 'getDashboardsList',
+	        value: function getDashboardsList(user) {
+	            var _this = this;
+
+	            var list = [];
+
+	            var _loop = function _loop(i) {
+	                list.push(_this.dashboards.filter(function (d) {
+	                    return user.permissions[i] == d.id;
+	                })[0].title);
+	            };
+
+	            for (var i = 0; i < user.permissions.length; i++) {
+	                _loop(i);
+	            }
+	            return list.join(', ');
+	        }
+	    }, {
+	        key: 'getDashboards',
+	        value: function getDashboards() {
+	            this.dashboards = [{
+	                title: 'Главный',
+	                id: 1
+	            }, {
+	                title: 'Второй',
+	                id: 2
+	            }];
+	        }
+	    }]);
+
+	    return UsersController;
+	}();
+
+	UsersController.$inject = [];
+
+	exports.default = UsersController;
 
 /***/ }
 /******/ ]);

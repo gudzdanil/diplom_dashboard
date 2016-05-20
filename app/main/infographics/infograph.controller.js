@@ -1,20 +1,51 @@
 class InfoGraphCtrl {
-    constructor(GlobalApiService, $uibModal) {
+    constructor(GlobalApiService, $uibModal, $timeout) {
         this._api = GlobalApiService;
         this._modal = $uibModal;
+        this.activeDashBoard = 1;
+        this._timeout = $timeout;
 
-        this.graphs = [];
+        this.getDashboards();
 
-        this._api.getGraphs().then((data) => {
-            this.graphs = data.data.results;
-        });
         
         this._api.getGraphTypes().then((data) => {
             this.types = data.data;
         });
     }
 
-    add() {
+    getDashboards() {
+        this.dashboards = [];
+        this.createDashboard('Главный', true);
+
+        this._api.getGraphs().then((data) => {
+            this.dashboards[0].graphs = data.data.results;
+        });
+        this.activeDashBoard = 1;
+    }
+
+    addDashboard() {
+        this.activeDashBoard = this.dashboards.length;
+        let name = prompt("Введите имя нового дашборда: ");
+        this.createDashboard(name);
+
+        this._timeout(() => {
+            this.activeDashBoard = this.dashboards.length;
+        });
+    }
+
+    createDashboard(name, active) {
+        if(name) {
+            this.dashboards.push({
+                title: name,
+                id: this.dashboards.length + 1,
+                graphs: [],
+                active: !!active
+            });
+        }
+        return !!name;
+    }
+
+    add(dashboardIndex) {
         this._modal.open({
             animation: true,
             template: require('./add.modal.html'),
@@ -27,11 +58,11 @@ class InfoGraphCtrl {
             },
             size: 'md'
         }).result.then((data) => {
-            this.graphs.push(data);
+            this.dashboards[dashboardIndex].graphs.push(data);
         });
     }
 
-    edit(index) {
+    edit(dashBoardIndex, index) {
         this._modal.open({
             animation: true,
             template: require('./add.modal.html'),
@@ -39,17 +70,17 @@ class InfoGraphCtrl {
             controllerAs: 'vmAdd',
             resolve: {
                 types: () => this.types,
-                graph: () => this.graphs[index],
+                graph: () => this.dashboards[dashBoardIndex].graphs[index],
                 saveMethod: () => angular.bind(this._api, this._api.editGraph)
             },
             size: 'md'
         }).result.then((data) => {
-            this.graphs.splice(index, 1, data);
+            this.dashboards[dashBoardIndex].graphs.splice(index, 1, data);
         });
     }
     
 }
 
-InfoGraphCtrl.$inject = ['GlobalApiService', '$uibModal'];
+InfoGraphCtrl.$inject = ['GlobalApiService', '$uibModal', '$timeout'];
 
 export default InfoGraphCtrl;
