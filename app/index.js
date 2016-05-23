@@ -6,7 +6,6 @@ import users from './services/users.service';
 import globalApi from './services/global.api.service';
 
 import loginCtrl from './auth/login/login.controller';
-import regCtrl from './auth/register/register.controller';
 import globalCtrl from './main/global.controller';
 import homeCtrl from './main/home/home.controller';
 import connectionCtrl from './main/connection/connection.controller';
@@ -41,7 +40,6 @@ angular.module('dp', ['ui.router', 'ui.bootstrap', 'chart.js'])
     .service('GlobalApiService', globalApi)
 
     .controller('LoginCtrl', loginCtrl)
-    .controller('RegisterCtrl', regCtrl)
     .controller('GlobalCtrl', globalCtrl)
     .controller('ConnectionCtrl', connectionCtrl)
     .controller('HomeCtrl', homeCtrl)

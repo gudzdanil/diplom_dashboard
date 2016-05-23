@@ -47,12 +47,6 @@ class UserService {
             return this._user.update({});
         });
     }
-
-    register(data) {
-        return this._api.register(data).then((userData) => {
-            return this._user.update(userData);
-        });
-    }
 }
 
 UserService.$inject = ['UsersApiService', 'AUTH', '$q'];

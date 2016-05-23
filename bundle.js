@@ -70,31 +70,27 @@
 
 	var _login2 = _interopRequireDefault(_login);
 
-	var _register = __webpack_require__(13);
-
-	var _register2 = _interopRequireDefault(_register);
-
-	var _global = __webpack_require__(14);
+	var _global = __webpack_require__(13);
 
 	var _global2 = _interopRequireDefault(_global);
 
-	var _home = __webpack_require__(15);
+	var _home = __webpack_require__(14);
 
 	var _home2 = _interopRequireDefault(_home);
 
-	var _connection = __webpack_require__(16);
+	var _connection = __webpack_require__(15);
 
 	var _connection2 = _interopRequireDefault(_connection);
 
-	var _infograph = __webpack_require__(17);
+	var _infograph = __webpack_require__(16);
 
 	var _infograph2 = _interopRequireDefault(_infograph);
 
-	var _addModal = __webpack_require__(19);
+	var _addModal = __webpack_require__(18);
 
 	var _addModal2 = _interopRequireDefault(_addModal);
 
-	var _users3 = __webpack_require__(20);
+	var _users3 = __webpack_require__(19);
 
 	var _users4 = _interopRequireDefault(_users3);
 
@@ -116,7 +112,7 @@
 	    $rootScope.$on('logout', function () {
 	        $state.go('login');
 	    });
-	}]).constant('API_URL', 'http://almost-bachelor.herokuapp.com/').service('UsersApiService', _usersApi2.default).service('UserService', _users2.default).service('GlobalApiService', _globalApi2.default).controller('LoginCtrl', _login2.default).controller('RegisterCtrl', _register2.default).controller('GlobalCtrl', _global2.default).controller('ConnectionCtrl', _connection2.default).controller('HomeCtrl', _home2.default).controller('GraphAddCtrl', _addModal2.default).controller('UsersCtrl', _users4.default).controller('GraphicsCtrl', _infograph2.default);
+	}]).constant('API_URL', 'http://almost-bachelor.herokuapp.com/').service('UsersApiService', _usersApi2.default).service('UserService', _users2.default).service('GlobalApiService', _globalApi2.default).controller('LoginCtrl', _login2.default).controller('GlobalCtrl', _global2.default).controller('ConnectionCtrl', _connection2.default).controller('HomeCtrl', _home2.default).controller('GraphAddCtrl', _addModal2.default).controller('UsersCtrl', _users4.default).controller('GraphicsCtrl', _infograph2.default);
 
 /***/ },
 /* 1 */
@@ -214,7 +210,7 @@
 /* 4 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\" col-md-4 col-sm-6 col-xs-12\" ng-repeat=\"graph in vmHome.graphs track by $index\">\n    <canvas id=\"line\" class=\"chart chart-line\" chart-data=\"graph.data\"\n            chart-labels=\"graph.labels\" chart-legend=\"true\" chart-series=\"graph.series\"\n            chart-click=\"vmHome.onClick\">\n    </canvas>\n</div>"
+	module.exports = "<div class=\"row\">\n    <div class=\" col-md-6 col-sm-6 col-xs-12\">\n        <canvas class=\"chart chart-line\" chart-data=\"vmHome.graphs[0].data\"\n                chart-labels=\"vmHome.graphs[0].labels\" chart-legend=\"true\" chart-series=\"vmHome.graphs[0].series\"\n                chart-click=\"vmHome.onClick\">\n        </canvas>\n    </div>\n    <div class=\" col-md-6 col-sm-6 col-xs-12\">\n        <canvas class=\"chart chart-bar\" chart-data=\"vmHome.graphs[0].data\"\n                chart-labels=\"vmHome.graphs[0].labels\" chart-legend=\"true\" chart-series=\"vmHome.graphs[0].series\"\n                chart-click=\"vmHome.onClick\">\n        </canvas>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\" col-md-6 col-sm-6 col-xs-12\">\n        <canvas class=\"chart chart-polar-area\" chart-data=\"vmHome.graphs[2].data\"\n                chart-labels=\"vmHome.graphs[2].labels\"\n                chart-click=\"vmHome.onClick\">\n        </canvas>\n    </div>\n    <div class=\" col-md-6 col-sm-6 col-xs-12\">\n        <canvas class=\"chart chart-pie\" chart-data=\"vmHome.graphs[1].data\"\n                chart-labels=\"vmHome.graphs[1].labels\"\n                chart-click=\"vmHome.onClick\">\n        </canvas>\n    </div>\n</div>"
 
 /***/ },
 /* 5 */
@@ -307,11 +303,6 @@
 	        value: function logout() {
 	            return this._http.post(this._baseUrl + 'logout/');
 	        }
-	    }, {
-	        key: 'register',
-	        value: function register(data) {
-	            return this._http.post(this._baseUrl + 'register/', data);
-	        }
 	    }]);
 
 	    return UsersApiService;
@@ -400,24 +391,15 @@
 	            });
 	        }
 	    }, {
-	        key: 'register',
-	        value: function register(data) {
-	            var _this3 = this;
-
-	            return this._api.register(data).then(function (userData) {
-	                return _this3._user.update(userData);
-	            });
-	        }
-	    }, {
 	        key: 'user',
 	        get: function get() {
-	            var _this4 = this;
+	            var _this3 = this;
 
 	            if (this._user.role) {
 	                return this._user;
 	            }
 	            return this._api.current().then(function (data) {
-	                return _this4._user.update(data);
+	                return _this3._user.update(data);
 	            });
 	        }
 	    }]);
@@ -544,51 +526,6 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var RegisterController = function () {
-	    function RegisterController(UserService, $state) {
-	        _classCallCheck(this, RegisterController);
-
-	        this._service = UserService;
-	        this._state = $state;
-	        this.userdata = {};
-	    }
-
-	    _createClass(RegisterController, [{
-	        key: 'register',
-	        value: function register(form) {
-	            var _this = this;
-
-	            if (form.$valid) {
-	                this._service.register(this.userdata).then(function (user) {
-	                    if (user.role) {
-	                        _this._state.go('home');
-	                    }
-	                });
-	            }
-	        }
-	    }]);
-
-	    return RegisterController;
-	}();
-
-	RegisterController.$inject = ['UserService', '$state'];
-
-	exports.default = RegisterController;
-
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 	var GlobalController = function () {
 	    function GlobalController(UserService, $state, $scope) {
 	        var _this = this;
@@ -621,7 +558,7 @@
 	exports.default = GlobalController;
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -640,13 +577,11 @@
 	        series: ['Series A', 'Series B'],
 	        data: [[65, 59, 80, 81, 56, 55, 40], [28, 48, 40, 19, 86, 27, 90]]
 	    }, {
-	        labels: ["January", "February", "March", "April", "May", "June", "July"],
-	        series: ['Series A', 'Series B'],
-	        data: [[65, 59, 80, 81, 56, 55, 40], [28, 48, 40, 19, 86, 27, 90]]
+	        labels: ["Download Sales", "In-Store Sales", "Mail-Order Sales"],
+	        data: [300, 500, 100]
 	    }, {
-	        labels: ["January", "February", "March", "April", "May", "June", "July"],
-	        series: ['Series A', 'Series B'],
-	        data: [[65, 59, 80, 81, 56, 55, 40], [28, 48, 40, 19, 86, 27, 90]]
+	        labels: ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"],
+	        data: [300, 500, 100, 40, 120]
 	    }, {
 	        labels: ["January", "February", "March", "April", "May", "June", "July"],
 	        series: ['Series A', 'Series B'],
@@ -671,7 +606,7 @@
 	exports.default = HomeController;
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -713,7 +648,7 @@
 	exports.default = ConnectionController;
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -790,7 +725,7 @@
 
 	            this._modal.open({
 	                animation: true,
-	                template: __webpack_require__(18),
+	                template: __webpack_require__(17),
 	                controller: 'GraphAddCtrl',
 	                controllerAs: 'vmAdd',
 	                resolve: {
@@ -816,7 +751,7 @@
 
 	            this._modal.open({
 	                animation: true,
-	                template: __webpack_require__(18),
+	                template: __webpack_require__(17),
 	                controller: 'GraphAddCtrl',
 	                controllerAs: 'vmAdd',
 	                resolve: {
@@ -845,13 +780,13 @@
 	exports.default = InfoGraphCtrl;
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports = "<div style=\"padding: 20px;\">\n    <form ng-submit=\"vmAdd.save(addForm)\" name=\"addForm\">\n        <div class=\"row\">\n            <div class=\"form-group col-sm-8\">\n                <label>Запрос</label>\n                <input type=\"text\" ng-model=\"vmAdd.graph.query\" class=\"form-control\">\n            </div>\n            <div class=\"col-sm-4\">\n                <label>Тип</label>\n                <select class=\"form-control\" ng-model=\"vmAdd.graph.diagram_type\"\n                        ng-options=\"key as value for (key, value) in vmAdd.types\"></select>\n            </div>\n        </div>\n        <div class=\"text-center\">\n            <button type=\"submit\" class=\"btn btn-default\">Сохранить</button>\n        </div>\n    </form>\n</div>"
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -896,7 +831,7 @@
 	exports.default = InfoGraphAddCtrl;
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';

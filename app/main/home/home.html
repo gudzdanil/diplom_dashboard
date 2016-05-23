@@ -1,6 +1,28 @@
-<div class=" col-md-4 col-sm-6 col-xs-12" ng-repeat="graph in vmHome.graphs track by $index">
-    <canvas id="line" class="chart chart-line" chart-data="graph.data"
-            chart-labels="graph.labels" chart-legend="true" chart-series="graph.series"
-            chart-click="vmHome.onClick">
-    </canvas>
+<div class="row">
+    <div class=" col-md-6 col-sm-6 col-xs-12">
+        <canvas class="chart chart-line" chart-data="vmHome.graphs[0].data"
+                chart-labels="vmHome.graphs[0].labels" chart-legend="true" chart-series="vmHome.graphs[0].series"
+                chart-click="vmHome.onClick">
+        </canvas>
+    </div>
+    <div class=" col-md-6 col-sm-6 col-xs-12">
+        <canvas class="chart chart-bar" chart-data="vmHome.graphs[0].data"
+                chart-labels="vmHome.graphs[0].labels" chart-legend="true" chart-series="vmHome.graphs[0].series"
+                chart-click="vmHome.onClick">
+        </canvas>
+    </div>
+</div>
+<div class="row">
+    <div class=" col-md-6 col-sm-6 col-xs-12">
+        <canvas class="chart chart-polar-area" chart-data="vmHome.graphs[2].data"
+                chart-labels="vmHome.graphs[2].labels"
+                chart-click="vmHome.onClick">
+        </canvas>
+    </div>
+    <div class=" col-md-6 col-sm-6 col-xs-12">
+        <canvas class="chart chart-pie" chart-data="vmHome.graphs[1].data"
+                chart-labels="vmHome.graphs[1].labels"
+                chart-click="vmHome.onClick">
+        </canvas>
+    </div>
 </div>
