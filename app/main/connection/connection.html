@@ -1,23 +1,27 @@
-<form ng-submit="vmConnection.connect(connectionForm)" name="connectionForm">
+<h2 class="text-center">Натройте соединение с удаленной базой данных</h2>
+
+<p class="bg-danger ng-hide" ng-show="vmGlobal.noConnection">Нет действующего соединения</p>
+
+<form ng-submit="vmConnection.connect(connectionForm)" name="connectionForm" ng-class="{'loading': vmConnection.loading}">
     <div class="form-group">
         <label for="db_host">Хост базы данных</label>
-        <input type="text" ng-model="vmConnection.connectiondata.host" class="form-control" id="db_host"  placeholder="http://my.db/123">
+        <input type="text" ng-model="vmConnection.connectiondata.host" class="form-control" id="db_host"  >
     </div>
     <div class="form-group">
         <label for="db_port">Порт</label>
-        <input type="number"  ng-model="vmConnection.connectiondata.port" class="form-control" id="db_port" placeholder="8080">
+        <input type="number"  ng-model="vmConnection.connectiondata.port" class="form-control" id="db_port" >
     </div>
     <div class="form-group">
         <label for="db_user">Имя пользователя</label>
-        <input type="text" class="form-control" ng-model="vmConnection.connectiondata.username" id="db_user" placeholder="admin">
+        <input type="text" class="form-control" ng-model="vmConnection.connectiondata.user" id="db_user" >
     </div>
     <div class="form-group">
         <label for="db_pass">Пароль</label>
-        <input type="password" class="form-control" ng-model="vmConnection.connectiondata.password" id="db_pass" placeholder="пароль">
+        <input type="password" class="form-control" ng-model="vmConnection.connectiondata.password" id="db_pass" >
     </div>
     <div class="form-group">
         <label for="db_name">Имя базы данных</label>
-        <input type="text" class="form-control" ng-model="vmConnection.connectiondata.db_name" id="db_name" placeholder="main">
+        <input type="text" class="form-control" ng-model="vmConnection.connectiondata.db_name" id="db_name" >
     </div>
     <div class="text-center">
         <button class="btn btn-default" type="submit">Создать соединение</button>

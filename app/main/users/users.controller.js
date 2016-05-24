@@ -1,5 +1,7 @@
 class UsersController {
-    constructor() {
+    constructor($uibModal, GlobalApiService) {
+        this._modal = $uibModal;
+        this._api = GlobalApiService;
         this.users = [];
 
         this.getUsers();
@@ -7,36 +9,62 @@ class UsersController {
     }
 
     getUsers() {
-        this.users = [{
-            username: 'user1',
-            email: 'user1@gmail.com',
-            permissions: [1]
-        },{
-            username: 'user2',
-            email: 'user2@gmail.com',
-            permissions: [1,2]
-        }];
+        this._api.getUsers().then((data) => {
+            this.users = data.data.results;
+        });
     }
 
     getDashboardsList(user) {
-        let list = [];
-        for(let i = 0 ; i < user.permissions.length; i++) {
-            list.push(this.dashboards.filter((d) => user.permissions[i] == d.id)[0].title);
+        if(user.permissions) {
+            let list = [];
+            for (let i = 0; i < user.permissions.length; i++) {
+                list.push(this.dashboards.filter((d) => user.permissions[i] == d.id)[0].title);
+            }
+            return list.join(', ');
         }
-        return list.join(', ');
+        return '';
     }
 
     getDashboards() {
-        this.dashboards = [{
-            title: 'Главный',
-            id: 1
-        },{
-            title: 'Второй',
-            id: 2
-        }];
+        return this._api.getDashboards().then(data => {
+            return (this.dashboards = data.data.results);
+        });
+    }
+
+    add() {
+        this._modal.open({
+            animation: true,
+            template: require('./add.modal.html'),
+            controller: 'UserAddCtrl',
+            controllerAs: 'vmAdd',
+            resolve: {
+                dashboards: angular.bind(this, this.getDashboards),
+                user: () => { return {}; },
+                saveMethod: () => angular.bind(this._api, this._api.addUser)
+            },
+            size: 'md'
+        }).result.then((data) => {
+            this.users.push(data);
+        });
+    }
+    edit(index) {
+        this._modal.open({
+            animation: true,
+            template: require('./add.modal.html'),
+            controller: 'UserAddCtrl',
+            controllerAs: 'vmAdd',
+            resolve: {
+                dashboards: angular.bind(this, this.getDashboards),
+                user: () => { return this.users[index]; },
+                saveMethod: () => angular.bind(this._api, this._api.editUser)
+            },
+            size: 'md'
+        }).result.then((data) => {
+            this.users.splice(index, 1, data);
+        });
     }
 }
 
-UsersController.$inject = [];
+UsersController.$inject = ['$uibModal', 'GlobalApiService'];
 
 export default UsersController;

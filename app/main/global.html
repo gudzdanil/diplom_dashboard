@@ -17,9 +17,9 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li ui-sref-active="active"><a href="" ui-sref="home">Главная</a></li>
-                    <li ui-sref-active="active"><a href="" ui-sref="connection">Соединение</a></li>
-                    <li ui-sref-active="active"><a href="" ui-sref="graphics">Настройка дашбордов</a></li>
-                    <li ui-sref-active="active"><a href="" ui-sref="users">Пользователи</a></li>
+                    <li ui-sref-active="active"><a href="" ui-sref="connection" ng-class="{'attention': vmGlobal.noConnection}">Соединение</a></li>
+                    <li ui-sref-active="active" ng-class="{'disabled': vmGlobal.noConnection}"><a href="" ui-sref="graphics">Настройка дашбордов</a></li>
+                    <li ui-sref-active="active" ng-class="{'disabled': vmGlobal.noConnection}"><a href="" ui-sref="users">Пользователи</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="" ng-bind="vmGlobal.user.username"></a></li>

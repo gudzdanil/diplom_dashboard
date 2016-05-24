@@ -53,6 +53,9 @@ function routing($stateProvider, $urlRouterProvider) {
             data: {
                 permission: ['ADMIN']
             },
+            resolve: {
+                connections: ['GlobalApiService', (api) => api.getConnections().then((data) => data.data.results && data.data.results.length)]
+            },
             ncyBreadcrumb: {
                 label: 'Управление инфорграфикой'
             }
@@ -65,6 +68,9 @@ function routing($stateProvider, $urlRouterProvider) {
             template: require('./main/users/users.html'),
             data: {
                 permission: ['ADMIN']
+            },
+            resolve: {
+                connections: ['GlobalApiService', (api) => api.getConnections().then((data) => data.data.results && data.data.results.length)]
             },
             ncyBreadcrumb: {
                 label: 'Управление пользователями'

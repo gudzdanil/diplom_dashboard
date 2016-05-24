@@ -12,6 +12,7 @@ import connectionCtrl from './main/connection/connection.controller';
 import graphCtrl from './main/infographics/infograph.controller';
 import graphAddCtrl from './main/infographics/add.modal.controller';
 import usersCtrl from './main/users/users.controller';
+import usersAddCtrl from './main/users/add.modal.controller';
 
 angular.module('dp', ['ui.router', 'ui.bootstrap', 'chart.js'])
     .constant('AUTH', {
@@ -45,4 +46,5 @@ angular.module('dp', ['ui.router', 'ui.bootstrap', 'chart.js'])
     .controller('HomeCtrl', homeCtrl)
     .controller('GraphAddCtrl', graphAddCtrl)
     .controller('UsersCtrl', usersCtrl)
+    .controller('UserAddCtrl', usersAddCtrl)
     .controller('GraphicsCtrl', graphCtrl);

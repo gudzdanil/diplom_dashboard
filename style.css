@@ -13,3 +13,64 @@ main {
 footer .navbar {
     margin-bottom: 0;
 }
+
+.loading {
+    position: relative;
+    min-height: 80px;
+}
+
+.loading::after {
+    content: '';
+    z-index: 999999;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: url('img/loading.gif') center -60px no-repeat;
+    background-size: 200px 200px;
+}
+
+.disabled {
+    position: relative;
+}
+
+.disabled::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999;
+}
+
+.attention::after {
+    content: '1';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 10px;
+    background: #f00;
+    overflow: hidden;
+    margin-left: 5px;
+    color: #fff;
+    opacity: 0.5;
+    font-size: 8px;
+    text-align: center;
+    vertical-align: top;
+    line-height: 12px;
+}
+
+p {
+    padding: 12px;
+}
+
+.bg-danger {
+    border-left: 2px solid #f00;
+    margin-bottom: 20px;
+}
+
+.tab-pane {
+    background: #fff;
+}
