@@ -228,7 +228,7 @@
 /* 4 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"col-md-10\">\n    <uib-tabset active=\"vmHome.activeTab\">\n        <uib-tab ng-repeat=\"tab in vmHome.dashboards track by $index\" heading=\"{{tab.name}}\">\n            <div ng-class=\"{'loading': vmHome.loading}\">\n                <div class=\"row\">\n                <div class=\" col-md-6 col-sm-6 col-xs-12\" ng-repeat=\"graph in vmHome.graphs track by $index\">\n                    <canvas class=\"chart chart-line\" chart-data=\"graph.data\"\n                            chart-labels=\"graph.labels\" chart-legend=\"true\"\n                            chart-series=\"graph.series\"\n                            chart-click=\"vmHome.onClick\"\n                    >\n                    </canvas>\n                </div>\n                    </div>\n                <!--<div class=\" col-md-6 col-sm-6 col-xs-12\">-->\n                <!--<canvas class=\"chart chart-bar\" chart-data=\"vmHome.graphs[0].data\"-->\n                <!--chart-labels=\"vmHome.graphs[0].labels\" chart-legend=\"true\"-->\n                <!--chart-series=\"vmHome.graphs[0].series\"-->\n                <!--chart-click=\"vmHome.onClick\">-->\n                <!--</canvas>-->\n                <!--</div>-->\n                <!--</div>-->\n                <!--<div class=\"row\">-->\n                <!--<div class=\" col-md-6 col-sm-6 col-xs-12\">-->\n                <!--<canvas class=\"chart chart-polar-area\" chart-data=\"vmHome.graphs[2].data\"-->\n                <!--chart-labels=\"vmHome.graphs[2].labels\"-->\n                <!--chart-click=\"vmHome.onClick\">-->\n                <!--</canvas>-->\n                <!--</div>-->\n                <!--<div class=\" col-md-6 col-sm-6 col-xs-12\">-->\n                <!--<canvas class=\"chart chart-pie\" chart-data=\"vmHome.graphs[1].data\"-->\n                <!--chart-labels=\"vmHome.graphs[1].labels\"-->\n                <!--chart-click=\"vmHome.onClick\">-->\n                <!--</canvas>-->\n                <!--</div>-->\n                <!--</div>-->\n            </div>\n        </uib-tab>\n    </uib-tabset>\n</div>\n<div class=\"col-md-2\">\n    <button class=\"btn btn-default\" ng-click=\"vmHome.saveAsPDF()\">экспорт в PDF</button>\n    <button class=\"btn btn-default\" ng-click=\"vmHome.saveAsJPEG()\">экспорт в JPEG</button>\n</div>\n"
+	module.exports = "<div class=\"col-md-8\">\n    <uib-tabset active=\"vmHome.activeTab\">\n        <uib-tab ng-repeat=\"tab in vmHome.dashboards track by $index\" heading=\"{{tab.name}}\">\n            <div ng-class=\"{'loading': vmHome.loading}\">\n                <div class=\"row\">\n                <div class=\" col-md-6 col-sm-6 col-xs-12\" ng-repeat=\"graph in vmHome.graphs track by $index\">\n                    <canvas class=\"chart chart-line\" chart-data=\"graph.data\"\n                            chart-labels=\"graph.labels\" chart-legend=\"true\"\n                            chart-series=\"graph.series\"\n                            chart-click=\"vmHome.onClick\"\n                    >\n                    </canvas>\n                </div>\n                    </div>\n                <!--<div class=\" col-md-6 col-sm-6 col-xs-12\">-->\n                <!--<canvas class=\"chart chart-bar\" chart-data=\"vmHome.graphs[0].data\"-->\n                <!--chart-labels=\"vmHome.graphs[0].labels\" chart-legend=\"true\"-->\n                <!--chart-series=\"vmHome.graphs[0].series\"-->\n                <!--chart-click=\"vmHome.onClick\">-->\n                <!--</canvas>-->\n                <!--</div>-->\n                <!--</div>-->\n                <!--<div class=\"row\">-->\n                <!--<div class=\" col-md-6 col-sm-6 col-xs-12\">-->\n                <!--<canvas class=\"chart chart-polar-area\" chart-data=\"vmHome.graphs[2].data\"-->\n                <!--chart-labels=\"vmHome.graphs[2].labels\"-->\n                <!--chart-click=\"vmHome.onClick\">-->\n                <!--</canvas>-->\n                <!--</div>-->\n                <!--<div class=\" col-md-6 col-sm-6 col-xs-12\">-->\n                <!--<canvas class=\"chart chart-pie\" chart-data=\"vmHome.graphs[1].data\"-->\n                <!--chart-labels=\"vmHome.graphs[1].labels\"-->\n                <!--chart-click=\"vmHome.onClick\">-->\n                <!--</canvas>-->\n                <!--</div>-->\n                <!--</div>-->\n            </div>\n        </uib-tab>\n    </uib-tabset>\n</div>\n<div class=\"col-md-4\">\n    <div class=\"row\"><button class=\"btn btn-default\" ng-click=\"vmHome.saveAsPDF()\">экспорт в PDF</button></div>\n    <div class=\"row\"><button class=\"btn btn-default\" ng-click=\"vmHome.saveAsJPEG()\">экспорт в JPEG</button></div>\n</div>\n"
 
 /***/ },
 /* 5 */
@@ -476,7 +476,7 @@
 	                    }, {
 	                        username: 'user2',
 	                        email: 'user2@gmail.com',
-	                        permissions: [1, 2]
+	                        permissions: [1, 3]
 	                    }]
 	                }
 	            });
@@ -1145,19 +1145,15 @@
 	    }, {
 	        key: 'getDashboardsList',
 	        value: function getDashboardsList(user) {
-	            var _this2 = this;
-
-	            if (user.permissions) {
+	            if (user.permissions && this.dashboards && this.dashboards.length) {
 	                var list = [];
-
-	                var _loop = function _loop(i) {
-	                    list.push(_this2.dashboards.filter(function (d) {
-	                        return user.permissions[i] == d.id;
-	                    })[0].title);
-	                };
-
 	                for (var i = 0; i < user.permissions.length; i++) {
-	                    _loop(i);
+	                    var dashboards = this.dashboards.filter(function (d) {
+	                        return user.permissions[i] == d.id;
+	                    });
+	                    if (dashboards.length) {
+	                        list.push(dashboards[0].name);
+	                    }
 	                }
 	                return list.join(', ');
 	            }
@@ -1166,16 +1162,16 @@
 	    }, {
 	        key: 'getDashboards',
 	        value: function getDashboards() {
-	            var _this3 = this;
+	            var _this2 = this;
 
 	            return this._api.getDashboards().then(function (data) {
-	                return _this3.dashboards = data.data.results;
+	                return _this2.dashboards = data.data.results;
 	            });
 	        }
 	    }, {
 	        key: 'add',
 	        value: function add() {
-	            var _this4 = this;
+	            var _this3 = this;
 
 	            this._modal.open({
 	                animation: true,
@@ -1188,18 +1184,18 @@
 	                        return {};
 	                    },
 	                    saveMethod: function saveMethod() {
-	                        return angular.bind(_this4._api, _this4._api.addUser);
+	                        return angular.bind(_this3._api, _this3._api.addUser);
 	                    }
 	                },
 	                size: 'md'
 	            }).result.then(function (data) {
-	                _this4.users.push(data);
+	                _this3.users.push(data);
 	            });
 	        }
 	    }, {
 	        key: 'edit',
 	        value: function edit(index) {
-	            var _this5 = this;
+	            var _this4 = this;
 
 	            this._modal.open({
 	                animation: true,
@@ -1209,15 +1205,15 @@
 	                resolve: {
 	                    dashboards: angular.bind(this, this.getDashboards),
 	                    user: function user() {
-	                        return _this5.users[index];
+	                        return _this4.users[index];
 	                    },
 	                    saveMethod: function saveMethod() {
-	                        return angular.bind(_this5._api, _this5._api.editUser);
+	                        return angular.bind(_this4._api, _this4._api.editUser);
 	                    }
 	                },
 	                size: 'md'
 	            }).result.then(function (data) {
-	                _this5.users.splice(index, 1, data);
+	                _this4.users.splice(index, 1, data);
 	            });
 	        }
 	    }]);
@@ -1233,7 +1229,7 @@
 /* 20 */
 /***/ function(module, exports) {
 
-	module.exports = "<div style=\"padding: 20px;\">\n    <h3 ng-bind='vmAdd.isNew ? \"Добавление пользователя\" : \"Редактирование пользователя (\" + vmAdd.user.email + \")\"'></h3>\n    <form ng-submit=\"vmAdd.save(addForm)\" name=\"addForm\">\n        <div class=\"form-group\">\n            <label>Имя: </label>\n            <input type=\"text\" ng-model=\"vmAdd.user.username\" class=\"form-control\">\n        </div>\n        <div class=\"form-group ng-hide\" ng-show=\"vmAdd.isNew\">\n            <label>E-mail: </label>\n            <input type=\"email\" ng-model=\"vmAdd.user.email\" class=\"form-control\">\n        </div>\n        <div>\n            <p>Доступ к дашбордам:</p>\n            <ul class=\"list-unstyled\">\n                <li ng-repeat=\"dashboard in vmAdd.dashboards track by $index\">\n                    <div class=\"checkbox\">\n                    <label><input type=\"checkbox\" ng-model=\"dashboard.selected\"> {{dashboard.title}}</label>\n                    </div>\n                </li>\n            </ul>\n        </div>\n        <div class=\"text-center\">\n            <button type=\"submit\" class=\"btn btn-default\">Сохранить</button>\n        </div>\n    </form>\n</div>"
+	module.exports = "<div style=\"padding: 20px;\">\n    <h3 ng-bind='vmAdd.isNew ? \"Добавление пользователя\" : \"Редактирование пользователя (\" + vmAdd.user.email + \")\"'></h3>\n    <form ng-submit=\"vmAdd.save(addForm)\" name=\"addForm\">\n        <div class=\"form-group\">\n            <label>Имя: </label>\n            <input type=\"text\" ng-model=\"vmAdd.user.username\" class=\"form-control\">\n        </div>\n        <div class=\"form-group ng-hide\" ng-show=\"vmAdd.isNew\">\n            <label>E-mail: </label>\n            <input type=\"email\" ng-model=\"vmAdd.user.email\" class=\"form-control\">\n        </div>\n        <div>\n            <p>Доступ к дашбордам:</p>\n            <ul class=\"list-unstyled\">\n                <li ng-repeat=\"dashboard in vmAdd.dashboards track by $index\">\n                    <div class=\"checkbox\">\n                    <label><input type=\"checkbox\" ng-model=\"dashboard.selected\"> {{dashboard.name}}</label>\n                    </div>\n                </li>\n            </ul>\n        </div>\n        <div class=\"text-center\">\n            <button type=\"submit\" class=\"btn btn-default\">Сохранить</button>\n        </div>\n    </form>\n</div>"
 
 /***/ },
 /* 21 */

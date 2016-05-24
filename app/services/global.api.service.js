@@ -25,7 +25,7 @@ class GlobalApiService {
                 }, {
                     username: 'user2',
                     email: 'user2@gmail.com',
-                    permissions: [1, 2]
+                    permissions: [1, 3]
                 }]
             }
         });

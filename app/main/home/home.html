@@ -1,4 +1,4 @@
-<div class="col-md-10">
+<div class="col-md-8">
     <uib-tabset active="vmHome.activeTab">
         <uib-tab ng-repeat="tab in vmHome.dashboards track by $index" heading="{{tab.name}}">
             <div ng-class="{'loading': vmHome.loading}">
@@ -38,7 +38,7 @@
         </uib-tab>
     </uib-tabset>
 </div>
-<div class="col-md-2">
-    <button class="btn btn-default" ng-click="vmHome.saveAsPDF()">экспорт в PDF</button>
-    <button class="btn btn-default" ng-click="vmHome.saveAsJPEG()">экспорт в JPEG</button>
+<div class="col-md-4">
+    <div class="row"><button class="btn btn-default" ng-click="vmHome.saveAsPDF()">экспорт в PDF</button></div>
+    <div class="row"><button class="btn btn-default" ng-click="vmHome.saveAsJPEG()">экспорт в JPEG</button></div>
 </div>
