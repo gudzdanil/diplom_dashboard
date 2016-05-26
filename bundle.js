@@ -455,32 +455,32 @@
 	    _createClass(GlobalApiService, [{
 	        key: 'addUser',
 	        value: function addUser(user) {
-	            return this._q.resolve({ data: user });
-	            //this._http.post(this._baseUrl + 'users/', user);
+	            // return this._q.resolve({data: user});
+	            return this._http.post(this._baseUrl + 'auth/users/', user);
 	        }
 	    }, {
 	        key: 'editUser',
 	        value: function editUser(user) {
 	            return this._q.resolve({ data: user });
-	            //this._http.put(this._baseUrl + 'users/' + user.id + '/', user);
+	            //return this._http.put(this._baseUrl + 'auth/users/' + user.id + '/', user);
 	        }
 	    }, {
 	        key: 'getUsers',
 	        value: function getUsers() {
-	            return this._q.resolve({
-	                data: {
-	                    results: [{
-	                        username: 'user1',
-	                        email: 'user1@gmail.com',
-	                        permissions: [1]
-	                    }, {
-	                        username: 'user2',
-	                        email: 'user2@gmail.com',
-	                        permissions: [1, 3]
-	                    }]
-	                }
-	            });
-	            //this._http.get(this._baseUrl + 'users/');
+	            // return this._q.resolve({
+	            //     data: {
+	            //         results: [{
+	            //             username: 'user1',
+	            //             email: 'user1@gmail.com',
+	            //             permissions: [1]
+	            //         }, {
+	            //             username: 'user2',
+	            //             email: 'user2@gmail.com',
+	            //             permissions: [1, 3]
+	            //         }]
+	            //     }
+	            // });
+	            return this._http.get(this._baseUrl + 'auth/users/');
 	        }
 	    }, {
 	        key: 'getConnections',
@@ -510,12 +510,12 @@
 	    }, {
 	        key: 'editDashboard',
 	        value: function editDashboard(dashboard) {
-	            return this._http.put(this._baseUrl + 'api/dashboard/' + dashboard.id, dashboard);
+	            return this._http.put(this._baseUrl + 'api/dashboard/' + dashboard.id + '/', dashboard);
 	        }
 	    }, {
 	        key: 'removeDashboard',
 	        value: function removeDashboard(data) {
-	            return this._http.delete(this._baseUrl + 'api/dashboard/' + data.id);
+	            return this._http.delete(this._baseUrl + 'api/dashboard/' + data.id + '/');
 	        }
 	    }, {
 	        key: 'getWidgets',
@@ -543,7 +543,7 @@
 	    }, {
 	        key: 'getGraphTypes',
 	        value: function getGraphTypes() {
-	            return this._http.get(this._baseUrl + 'api/diagram-types');
+	            return this._http.get(this._baseUrl + 'api/diagram-types/');
 	        }
 	    }, {
 	        key: 'getDashboardData',

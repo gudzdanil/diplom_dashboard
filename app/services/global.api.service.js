@@ -6,30 +6,30 @@ class GlobalApiService {
     }
 
     addUser(user) {
-        return this._q.resolve({data: user});
-        //this._http.post(this._baseUrl + 'users/', user);
+        // return this._q.resolve({data: user});
+        return this._http.post(this._baseUrl + 'auth/users/', user);
     }
 
     editUser(user) {
         return this._q.resolve({data: user});
-        //this._http.put(this._baseUrl + 'users/' + user.id + '/', user);
+        //return this._http.put(this._baseUrl + 'auth/users/' + user.id + '/', user);
     }
 
     getUsers() {
-        return this._q.resolve({
-            data: {
-                results: [{
-                    username: 'user1',
-                    email: 'user1@gmail.com',
-                    permissions: [1]
-                }, {
-                    username: 'user2',
-                    email: 'user2@gmail.com',
-                    permissions: [1, 3]
-                }]
-            }
-        });
-        //this._http.get(this._baseUrl + 'users/');
+        // return this._q.resolve({
+        //     data: {
+        //         results: [{
+        //             username: 'user1',
+        //             email: 'user1@gmail.com',
+        //             permissions: [1]
+        //         }, {
+        //             username: 'user2',
+        //             email: 'user2@gmail.com',
+        //             permissions: [1, 3]
+        //         }]
+        //     }
+        // });
+        return this._http.get(this._baseUrl + 'auth/users/');
     }
 
     getConnections() {
@@ -53,11 +53,11 @@ class GlobalApiService {
     }
 
     editDashboard(dashboard) {
-        return this._http.put(this._baseUrl + 'api/dashboard/' + dashboard.id, dashboard);
+        return this._http.put(this._baseUrl + 'api/dashboard/' + dashboard.id + '/', dashboard);
     }
 
     removeDashboard(data) {
-        return this._http.delete(this._baseUrl + 'api/dashboard/' + data.id);
+        return this._http.delete(this._baseUrl + 'api/dashboard/' + data.id + '/');
     }
 
     getWidgets(dashboardId) {
@@ -80,7 +80,7 @@ class GlobalApiService {
     }
 
     getGraphTypes() {
-        return this._http.get(this._baseUrl + 'api/diagram-types');
+        return this._http.get(this._baseUrl + 'api/diagram-types/');
     }
 
     getDashboardData(dashboardId) {
