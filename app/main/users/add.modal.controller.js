@@ -6,9 +6,9 @@ class UserAddCtrl {
         this.user = _.cloneDeep(user);
         this.dashboards = _.cloneDeep(dashboards);
 
-        this.user.permissions = this.user.permissions || [];
+        this.user.dashboards = this.user.dashboards || [];
         _.each(this.dashboards, (d) => {
-            if(this.user.permissions.indexOf(d.id) > -1) {
+            if(this.user.dashboards.indexOf(d.id) > -1) {
                 d.selected = true;
             }
         });
@@ -17,8 +17,8 @@ class UserAddCtrl {
     }
 
     save() {
-        this.user.permissions = _.map(_.filter(this.dashboards, (d) => d.selected), (d) => d.id);
-        console.log(this.user.permissions);
+        this.user.dashboards = _.map(_.filter(this.dashboards, (d) => d.selected), (d) => d.id);
+        console.log(this.user.dashboards);
         this.saveMethod(this.user).then(data => {
             this._modalInstance.close(data.data);
         }, (err) => {

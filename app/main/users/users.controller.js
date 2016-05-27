@@ -15,10 +15,10 @@ class UsersController {
     }
 
     getDashboardsList(user) {
-        if(user.permissions && this.dashboards && this.dashboards.length) {
+        if(user.dashboards && this.dashboards && this.dashboards.length) {
             let list = [];
-            for (var i = 0; i < user.permissions.length; i++) {
-                let dashboards = this.dashboards.filter((d) => user.permissions[i] == d.id);
+            for (var i = 0; i < user.dashboards.length; i++) {
+                let dashboards = this.dashboards.filter((d) => user.dashboards[i] == d.id);
                 if(dashboards.length) {
                     list.push(dashboards[0].name);
                 }

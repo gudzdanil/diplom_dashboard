@@ -29,8 +29,8 @@ class InfoGraphCtrl {
 
     updateWidgetList(dashboardId) {
         this.widgets = [];
-        this._api.getWidgets(this.dashboards[this.activeDashBoard-1].id).then((data) => {
-            this.widgets = data.data.results;
+        return this._api.getWidgets(dashboardId || this.dashboards[this.activeDashBoard - 1].id).then((data) => {
+            return (this.widgets = data.data.results);
         });
     }
 
@@ -42,11 +42,11 @@ class InfoGraphCtrl {
 
     createDashboard(name) {
         this.widgets = [];
-        if(name) {
+        if (name) {
             this._api.addDashboard({name: name}).then(data => {
                 this.dashboards.push(data.data);
-                this.updateWidgetList(data.data.id);
-                this._timeout(() => {
+                this.updateWidgetList(data.data.id).then((widgets) => {
+                    this.widgets = widgets;
                     this.activeDashBoard = this.dashboards.length;
                 });
             });
@@ -54,15 +54,17 @@ class InfoGraphCtrl {
         return !!name;
     }
 
-    removeDashboard(index) {
+    removeDashboard() {
+        let index = this.activeDashBoard - 1;
         this._api.removeDashboard(this.dashboards[index]).then(() => {
             this.dashboards.splice(index, 1);
         });
     }
 
-    editDashboard(index) {
+    editDashboard() {
         let name = prompt("Введите новое имя дашборда");
-        if(name) {
+        if (name) {
+            let index = this.activeDashBoard - 1;
             this._api.editDashboard(_.assign(_.clone(this.dashboards[index]), {name: name})).then((data) => {
                 this.dashboards.splice(index, 1, data.data);
             });
@@ -78,7 +80,9 @@ class InfoGraphCtrl {
             controllerAs: 'vmAdd',
             resolve: {
                 types: () => this.types,
-                graph: () => { return {}; },
+                graph: () => {
+                    return {};
+                },
                 saveMethod: () => (data) => this._api.addWidget(data, id)
             },
             size: 'md'
@@ -110,7 +114,7 @@ class InfoGraphCtrl {
             this.widgets.splice(index, 1);
         });
     }
-    
+
 }
 
 InfoGraphCtrl.$inject = ['GlobalApiService', '$uibModal', '$timeout'];

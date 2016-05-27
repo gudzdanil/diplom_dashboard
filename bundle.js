@@ -240,7 +240,7 @@
 /* 6 */
 /***/ function(module, exports) {
 
-	module.exports = "<uib-tabset active=\"vmGraph.activeDashBoard\">\n    <uib-tab index=\"($index + 1)\" ng-click=\"vmGraph.updateWidgetList()\" heading=\"{{dashboard.name}}\"\n             ng-repeat=\"dashboard in vmGraph.dashboards track by $index\">\n        <div class=\"row text-right\">\n            <button class=\"btn btn-primary\" ng-click=\"vmGraph.editDashboard($index)\">Изменить имя дашборда</button>\n            <button class=\"btn btn-danger\" ng-click=\"vmGraph.removeDashboard($index)\">Удалить дашборд</button>\n        </div>\n        <div class=\"row\">\n            <ul class=\"list-unstyled clearfix\" style=\"margin-top: 30px;\">\n                <li ng-repeat=\"widget in vmGraph.widgets track by $index\">\n                    <div class=\"col-md-8\">\n                        <dl class=\"dl-horizontal\">\n                            <dt>Запрос</dt>\n                            <dd ng-bind=\"widget.query\"></dd>\n                        </dl>\n                        <dl class=\"dl-horizontal\">\n                            <dt>Тип</dt>\n                            <dd ng-bind=\"vmGraph.types[widget.diagram_type]\"></dd>\n                        </dl>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <button ng-click=\"vmGraph.edit($parent.$index, $index)\" class=\"btn btn-default\">Редактировать\n                        </button>\n                        <button ng-click=\"vmGraph.remove($index)\" class=\"btn btn-default\">Удалить</button>\n                    </div>\n                </li>\n            </ul>\n        </div>\n        <div class=\"text-center\">\n            <button ng-click=\"vmGraph.add($parent.$index)\" class=\"btn btn-default\">Добавить</button>\n        </div>\n    </uib-tab>\n    <uib-tab ng-click=\"vmGraph.addDashboard()\" heading=\"+\" index=\"99999\" style=\"cursor: default\"></uib-tab>\n</uib-tabset>\n"
+	module.exports = "<div class=\"col-md-8\">\n<uib-tabset active=\"vmGraph.activeDashBoard\">\n    <uib-tab index=\"($index + 1)\" ng-click=\"vmGraph.updateWidgetList()\" heading=\"{{dashboard.name}}\"\n             ng-repeat=\"dashboard in vmGraph.dashboards track by $index\">\n        <div class=\"row\">\n            <ul class=\"list-unstyled clearfix\" style=\"margin-top: 30px;\">\n                <li ng-repeat=\"widget in vmGraph.widgets track by $index\">\n                    <div class=\"col-md-8\">\n                        <dl class=\"dl-horizontal\">\n                            <dt>Запрос</dt>\n                            <dd ng-bind=\"widget.query\"></dd>\n                        </dl>\n                        <dl class=\"dl-horizontal\">\n                            <dt>Тип</dt>\n                            <dd ng-bind=\"vmGraph.types[widget.diagram_type]\"></dd>\n                        </dl>\n                    </div>\n                    <div class=\"col-md-4\">\n                        <button ng-click=\"vmGraph.edit($parent.$index, $index)\" class=\"btn btn-default\">Редактировать\n                        </button>\n                        <button ng-click=\"vmGraph.remove($index)\" class=\"btn btn-default\">Удалить</button>\n                    </div>\n                </li>\n            </ul>\n        </div>\n        <div class=\"text-center\">\n            <button ng-click=\"vmGraph.add($parent.$index)\" class=\"btn btn-default\">Добавить</button>\n        </div>\n    </uib-tab>\n</uib-tabset>\n</div>\n<div class=\"col-md-4\">\n    <div class=\"row text-right\">\n        <p><button class=\"btn btn-primary\" ng-click=\"vmGraph.addDashboard()\">Добавить дашборд</button></p>\n        <p><button class=\"btn btn-default\" ng-click=\"vmGraph.editDashboard()\">Изменить имя дашборда</button></p>\n        <p><button class=\"btn btn-danger\" ng-click=\"vmGraph.removeDashboard()\">Удалить дашборд</button></p>\n    </div>\n</div>"
 
 /***/ },
 /* 7 */
@@ -461,25 +461,12 @@
 	    }, {
 	        key: 'editUser',
 	        value: function editUser(user) {
-	            return this._q.resolve({ data: user });
-	            //return this._http.put(this._baseUrl + 'auth/users/' + user.id + '/', user);
+	            // return this._q.resolve({data: user});
+	            return this._http.put(this._baseUrl + 'auth/users/' + user.id + '/', user);
 	        }
 	    }, {
 	        key: 'getUsers',
 	        value: function getUsers() {
-	            // return this._q.resolve({
-	            //     data: {
-	            //         results: [{
-	            //             username: 'user1',
-	            //             email: 'user1@gmail.com',
-	            //             permissions: [1]
-	            //         }, {
-	            //             username: 'user2',
-	            //             email: 'user2@gmail.com',
-	            //             permissions: [1, 3]
-	            //         }]
-	            //     }
-	            // });
 	            return this._http.get(this._baseUrl + 'auth/users/');
 	        }
 	    }, {
@@ -532,13 +519,13 @@
 	        key: 'editWidget',
 	        value: function editWidget(data) {
 	            // return this._q.resolve({data: data});
-	            return this._http.put(this._baseUrl + 'api/dashboard/widget/' + data.id, data);
+	            return this._http.put(this._baseUrl + 'api/dashboard/widget/' + data.id + '/', data);
 	        }
 	    }, {
 	        key: 'removeWidget',
 	        value: function removeWidget(data) {
 	            // return this._q.resolve({data: data});
-	            return this._http.delete(this._baseUrl + 'api/dashboard/widget/' + data.id);
+	            return this._http.delete(this._baseUrl + 'api/dashboard/widget/' + data.id + '/');
 	        }
 	    }, {
 	        key: 'getGraphTypes',
@@ -931,8 +918,8 @@
 	            var _this3 = this;
 
 	            this.widgets = [];
-	            this._api.getWidgets(this.dashboards[this.activeDashBoard - 1].id).then(function (data) {
-	                _this3.widgets = data.data.results;
+	            return this._api.getWidgets(dashboardId || this.dashboards[this.activeDashBoard - 1].id).then(function (data) {
+	                return _this3.widgets = data.data.results;
 	            });
 	        }
 	    }, {
@@ -951,8 +938,8 @@
 	            if (name) {
 	                this._api.addDashboard({ name: name }).then(function (data) {
 	                    _this4.dashboards.push(data.data);
-	                    _this4.updateWidgetList(data.data.id);
-	                    _this4._timeout(function () {
+	                    _this4.updateWidgetList(data.data.id).then(function (widgets) {
+	                        _this4.widgets = widgets;
 	                        _this4.activeDashBoard = _this4.dashboards.length;
 	                    });
 	                });
@@ -961,23 +948,27 @@
 	        }
 	    }, {
 	        key: "removeDashboard",
-	        value: function removeDashboard(index) {
+	        value: function removeDashboard() {
 	            var _this5 = this;
 
+	            var index = this.activeDashBoard - 1;
 	            this._api.removeDashboard(this.dashboards[index]).then(function () {
 	                _this5.dashboards.splice(index, 1);
 	            });
 	        }
 	    }, {
 	        key: "editDashboard",
-	        value: function editDashboard(index) {
+	        value: function editDashboard() {
 	            var _this6 = this;
 
 	            var name = prompt("Введите новое имя дашборда");
 	            if (name) {
-	                this._api.editDashboard(_.assign(_.clone(this.dashboards[index]), { name: name })).then(function (data) {
-	                    _this6.dashboards.splice(index, 1, data.data);
-	                });
+	                (function () {
+	                    var index = _this6.activeDashBoard - 1;
+	                    _this6._api.editDashboard(_.assign(_.clone(_this6.dashboards[index]), { name: name })).then(function (data) {
+	                        _this6.dashboards.splice(index, 1, data.data);
+	                    });
+	                })();
 	            }
 	        }
 	    }, {
@@ -1145,11 +1136,11 @@
 	    }, {
 	        key: 'getDashboardsList',
 	        value: function getDashboardsList(user) {
-	            if (user.permissions && this.dashboards && this.dashboards.length) {
+	            if (user.dashboards && this.dashboards && this.dashboards.length) {
 	                var list = [];
-	                for (var i = 0; i < user.permissions.length; i++) {
+	                for (var i = 0; i < user.dashboards.length; i++) {
 	                    var dashboards = this.dashboards.filter(function (d) {
-	                        return user.permissions[i] == d.id;
+	                        return user.dashboards[i] == d.id;
 	                    });
 	                    if (dashboards.length) {
 	                        list.push(dashboards[0].name);
@@ -1257,9 +1248,9 @@
 	        this.user = _.cloneDeep(user);
 	        this.dashboards = _.cloneDeep(dashboards);
 
-	        this.user.permissions = this.user.permissions || [];
+	        this.user.dashboards = this.user.dashboards || [];
 	        _.each(this.dashboards, function (d) {
-	            if (_this.user.permissions.indexOf(d.id) > -1) {
+	            if (_this.user.dashboards.indexOf(d.id) > -1) {
 	                d.selected = true;
 	            }
 	        });
@@ -1272,12 +1263,12 @@
 	        value: function save() {
 	            var _this2 = this;
 
-	            this.user.permissions = _.map(_.filter(this.dashboards, function (d) {
+	            this.user.dashboards = _.map(_.filter(this.dashboards, function (d) {
 	                return d.selected;
 	            }), function (d) {
 	                return d.id;
 	            });
-	            console.log(this.user.permissions);
+	            console.log(this.user.dashboards);
 	            this.saveMethod(this.user).then(function (data) {
 	                _this2._modalInstance.close(data.data);
 	            }, function (err) {

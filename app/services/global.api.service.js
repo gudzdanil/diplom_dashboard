@@ -11,24 +11,11 @@ class GlobalApiService {
     }
 
     editUser(user) {
-        return this._q.resolve({data: user});
-        //return this._http.put(this._baseUrl + 'auth/users/' + user.id + '/', user);
+        // return this._q.resolve({data: user});
+        return this._http.put(this._baseUrl + 'auth/users/' + user.id + '/', user);
     }
 
     getUsers() {
-        // return this._q.resolve({
-        //     data: {
-        //         results: [{
-        //             username: 'user1',
-        //             email: 'user1@gmail.com',
-        //             permissions: [1]
-        //         }, {
-        //             username: 'user2',
-        //             email: 'user2@gmail.com',
-        //             permissions: [1, 3]
-        //         }]
-        //     }
-        // });
         return this._http.get(this._baseUrl + 'auth/users/');
     }
 
@@ -71,12 +58,12 @@ class GlobalApiService {
 
     editWidget(data) {
         // return this._q.resolve({data: data});
-        return this._http.put(this._baseUrl + 'api/dashboard/widget/' + data.id, data);
+        return this._http.put(this._baseUrl + 'api/dashboard/widget/' + data.id + '/', data);
     }
 
     removeWidget(data) {
         // return this._q.resolve({data: data});
-        return this._http.delete(this._baseUrl + 'api/dashboard/widget/' + data.id);
+        return this._http.delete(this._baseUrl + 'api/dashboard/widget/' + data.id + '/');
     }
 
     getGraphTypes() {
