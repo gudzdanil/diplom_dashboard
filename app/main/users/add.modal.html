@@ -3,11 +3,11 @@
     <form ng-submit="vmAdd.save(addForm)" name="addForm">
         <div class="form-group">
             <label>Имя: </label>
-            <input type="text" ng-model="vmAdd.user.username" class="form-control">
+            <input type="text" ng-readonly="!vmAdd.isNew" ng-model="vmAdd.user.username" class="form-control">
         </div>
-        <div class="form-group ng-hide" ng-show="vmAdd.isNew">
+        <div class="form-group">
             <label>E-mail: </label>
-            <input type="email" ng-model="vmAdd.user.email" class="form-control">
+            <input type="email" ng-readonly="!vmAdd.isNew" ng-model="vmAdd.user.email" class="form-control">
         </div>
         <div>
             <p>Доступ к дашбордам:</p>

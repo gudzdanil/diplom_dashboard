@@ -1,7 +1,8 @@
 class UsersController {
-    constructor($uibModal, GlobalApiService) {
+    constructor($uibModal, GlobalApiService, UsersApiService) {
         this._modal = $uibModal;
         this._api = GlobalApiService;
+        this._apiUsers = UsersApiService;
         this.users = [];
 
         this.getUsers();
@@ -9,7 +10,7 @@ class UsersController {
     }
 
     getUsers() {
-        this._api.getUsers().then((data) => {
+        this._apiUsers.getUsers().then((data) => {
             this.users = data.data.results;
         });
     }
@@ -43,7 +44,7 @@ class UsersController {
             resolve: {
                 dashboards: angular.bind(this, this.getDashboards),
                 user: () => { return {}; },
-                saveMethod: () => angular.bind(this._api, this._api.addUser)
+                saveMethod: () => angular.bind(this._apiUsers, this._apiUsers.addUser)
             },
             size: 'md'
         }).result.then((data) => {
@@ -59,15 +60,24 @@ class UsersController {
             resolve: {
                 dashboards: angular.bind(this, this.getDashboards),
                 user: () => { return this.users[index]; },
-                saveMethod: () => angular.bind(this._api, this._api.editUser)
+                saveMethod: () => angular.bind(this._apiUsers, this._apiUsers.editUser)
             },
             size: 'md'
         }).result.then((data) => {
             this.users.splice(index, 1, data);
         });
     }
+
+    remove(index) {
+        let id = this.users[index].id;
+        if(confirm("Вы уверены что хотите удалить пользователя " + this.users[index].username + "?")) {
+            this._apiUsers.removeUser(id).then(() => {
+                this.users.splice(index, 1);
+            });
+        }
+    }
 }
 
-UsersController.$inject = ['$uibModal', 'GlobalApiService'];
+UsersController.$inject = ['$uibModal', 'GlobalApiService', 'UsersApiService'];
 
 export default UsersController;

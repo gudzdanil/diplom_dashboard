@@ -16,6 +16,22 @@ class UsersApiService {
     logout() {
         return this._http.post(this._baseUrl + 'logout/');
     }
+
+    addUser(user) {
+        return this._http.post(this._baseUrl + 'users/', user);
+    }
+
+    editUser(user) {
+        return this._http.patch(this._baseUrl + 'users/' + user.id + '/', user);
+    }
+
+    getUsers() {
+        return this._http.get(this._baseUrl + 'users/');
+    }
+
+    removeUser(id) {
+        return this._http.delete(this._baseUrl + 'users/' + id + "/");
+    }
 }
 
 UsersApiService.$inject = ['$http', '$q', 'API_URL'];

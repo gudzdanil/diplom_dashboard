@@ -14,7 +14,13 @@ function routing($stateProvider, $urlRouterProvider) {
         })
         .state('global', {
             abstract: true,
-            template: require('./main/global.html'),
+            templateProvider: ['UsersApiService', '$http', (api, http) => {
+                return api.current().then((data) => {
+                    return http.get('./app/main/global_' + (data.data.role || 'user').toLowerCase() + '.html').then((data) => {
+                        return data.data;
+                    });
+                });
+            }],
             controller: 'GlobalCtrl',
             controllerAs: 'vmGlobal'
         })

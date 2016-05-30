@@ -22,10 +22,10 @@ class UserService {
 
     get user() {
         if(this._user.role) {
-            return this._user;
+            return this._q.resolve(this._user);
         }
         return this._api.current().then((data) => {
-            return this._user.update(data);
+            return this._user.update(data.data);
         });
     }
 

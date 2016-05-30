@@ -5,20 +5,6 @@ class GlobalApiService {
         this._baseUrl = API_URL;
     }
 
-    addUser(user) {
-        // return this._q.resolve({data: user});
-        return this._http.post(this._baseUrl + 'auth/users/', user);
-    }
-
-    editUser(user) {
-        // return this._q.resolve({data: user});
-        return this._http.put(this._baseUrl + 'auth/users/' + user.id + '/', user);
-    }
-
-    getUsers() {
-        return this._http.get(this._baseUrl + 'auth/users/');
-    }
-
     getConnections() {
         return this._http.get(this._baseUrl + 'remote-db/');
     }
